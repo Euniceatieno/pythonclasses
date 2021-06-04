@@ -8,4 +8,4 @@ class Car:
         return f"{self.make}-{self.model} is {self.color} in color"   
     def annualMilleage(self):
         return self.milleage*12
-             
+            
