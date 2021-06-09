@@ -49,7 +49,6 @@ class Account:
             self.transactions.append(transaction1)
             return f"Hello {self.name}.You have taken a loan of {amount} and your loan balance is {self.loan}.Your current account balance is {self.balance}" 
     def repay(self,amount):
-        self.loan-=amount
         if amount<0:
             return f"You cannot repay with amount less than 0"
         elif amount >=self.loan:
