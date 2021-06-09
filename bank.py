@@ -1,16 +1,5 @@
+from datetime import datetime
 
-# class Account:
-#     def __init__(self,accNumber,type,owner,balance):
-#         self.accNumber=accNumber
-#         self.type=type
-#         self.owner=owner
-#         self.balance=balance
-#     def description(self):
-#         return f"Account with {self.accNumber} owned by {self.owner} is a {self.type} account"   
-#     def initialAmmount(self):
-#        return 10000+self.balance
-#     def statement(self):
-#         return f"Your balance is {self.balance}"
 
 
 class Account:
@@ -21,10 +10,14 @@ class Account:
         self.transaction=20
         self.loan=0
         self.loan_limit=1000
+        self.transactions=[]
        
     def deposit(self,amount):
         if amount>0:
             self.balance+=amount
+            
+            transaction1={'amount':amount,'balance':self.balance,'narration':"You deposited",'time':datetime.now()}
+            self.transactions.append(transaction1)
             return f"Hello {self.name},you have deposited {amount}.Your new balance is {self.balance}"
         else:
             return "Please deposit a valid amount" 
@@ -37,6 +30,9 @@ class Account:
             return "I cannot withdraw if the balance is less than the amount plus transaction fee"
         else:
             self.balance-=newbalance
+            transaction1={'amount':amount,'balance':self.balance,'narration':"You withdrew",'time':datetime.now()}
+            self.transactions.append(transaction1)
+
             return f"Hello {self.name},you have withrawn{amount}.Your new balance is {self.balance}"
     def loanB(self,amount):
         if amount<0:
@@ -49,8 +45,34 @@ class Account:
             loan_fee=0.05*amount
             self.loan=amount+loan_fee
             self.balance+=amount
-            return f"Hello {self.name}.You have taken a loan of {amount} and your loan balance is {self.loan}.Your current account balance is {self.balance}"       
+            transaction1={'amount':amount,'balance':self.balance,'narration':"You borrowed",'time':datetime.now()}
+            self.transactions.append(transaction1)
+            return f"Hello {self.name}.You have taken a loan of {amount} and your loan balance is {self.loan}.Your current account balance is {self.balance}" 
+    def repay(self,amount):
+        self.loan-=amount
+        if amount<0:
+            return f"You cannot repay with amount less than 0"
+        elif amount >=self.loan:
+            remainder=amount-self.loan
+            self.balance+=remainder
+            transaction1={'amount':amount,'balance':self.balance,'narration':"You repaid",'time':datetime.now()}
+            self.transactions.append(transaction1)
+            return f"{amount} has been used to repay your loan,the remainder has been added to your account and balance is {self.balance}"
+        else:
+            self.loan-=amount
+            transaction1={'amount':amount,'balance':self.balance,'narration':"You repaid",'time':datetime.now()}
+            self.transactions.append(transaction1)
+            return f"Your loan balance is {self.loan}"
+           
 
+    def get_statement(self):
+        for items in self.transactions:
+            amount=items["amount"]
+            balance=items['balance']
+            narration=items["narration"]
+            time=items['time']
+            date=time.strftime("%D")
+            print(f"On {date} {narration} {amount}.Balance:{balance}")
 
 
 
