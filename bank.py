@@ -115,7 +115,7 @@ class Account:
             return f"You have transferred {amount} to {account.name} and your account balance is {self.balance}"    
 class DerivedMoneyAccount(Account):
     def __init__(self, name, phone ,service_provider):
-        Account.__init__(self,name, phone, service_provider)   
+        Account.__init__(self,name, phone)   
         self.service_provider=service_provider
 
     def buy_airtime(self,amount):
